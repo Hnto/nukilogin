@@ -1,0 +1,30 @@
+{
+"name": "hnto/nuki-skeleton",
+  "type": "framework",
+  "description": "Skeleton application for usage with the nuki framework",
+  "authors": [
+    {
+      "name": "Herant Awadisan",
+      "email": "herant.awadisan@gmail.com"
+    }
+  ],
+  "keywords": [
+    "application", "nuki"
+  ],
+ "minimum-stability": "stable",
+ "require": {
+  "hnto/nuki": "0.1.*",
+  "phing/phing": "2.*"
+ },
+  "config": {
+    "bin-dir": "build"
+  },
+ "autoload": {
+  "psr-4": {
+   "Units\\": "Units"
+  }
+ },
+ "require-dev": {
+  "phpunit/phpunit": "~6.0"
+ }
+}

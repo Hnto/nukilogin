@@ -1,0 +1,16 @@
+{
+    "Services": {
+        "Registration": {
+            "Events": "",
+            "Extenders": ""
+        },
+        "Login": {
+            "Events": "",
+            "Extenders": ""
+        },
+        "Account": {
+            "Events": "",
+            "Extenders": ""
+        }
+    }
+}

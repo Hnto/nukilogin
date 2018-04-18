@@ -1,0 +1,16 @@
+{
+    "Repositories": {
+        "UserRepository": {
+            "Location": "Units\\System\\Repositories\\UserRepository",
+            "Providers": [
+                "UserProvider"
+            ]
+        },
+        "TokenRepository": {
+            "Location": "Units\\System\\Repositories\\TokenRepository",
+            "Providers": [
+                "TokenProvider"
+            ]
+        }
+    }
+}

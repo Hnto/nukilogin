@@ -1,0 +1,10 @@
+{
+    "connection-info": {
+        "dsn": "mysql:dbname=nukilogin;host=localhost:3306",
+        "user": "root",
+        "pass": "",
+        "options": {
+            "1002": "SET NAMES 'UTF8'"
+        }
+    }
+}

@@ -1,0 +1,16 @@
+
+namespace Units\{$unit}\Events;
+
+use Nuki\Skeletons\{
+  Processes\Event,
+  Actors\Watcher
+};
+
+class {$watcher} extends Watcher {
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Event $event) {
+    }
+}
+

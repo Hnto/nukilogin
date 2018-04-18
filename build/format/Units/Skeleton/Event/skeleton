@@ -1,0 +1,21 @@
+
+namespace Units\{$unit}\Events;
+
+use \Nuki\Skeletons\{
+    Processes\Event
+};
+
+class {$event} extends Event {
+
+    /**
+     * process method called by the framework
+     * This method can contain any sort of logic you'd want to
+     * be executed
+     *
+     * @param array $params
+     */
+    public function process(array $params = [])
+    {
+        //Add logic
+    }
+}

@@ -1,0 +1,17 @@
+
+namespace Units\{$unit}\Extenders;
+
+use \Nuki\Skeletons\{
+    Providers\Extender
+};
+
+class {$extender} extends Extender {
+
+    /**
+     * Execute method called by the framework
+     */
+    public function execute()
+    {
+        //Add logic
+    }
+}

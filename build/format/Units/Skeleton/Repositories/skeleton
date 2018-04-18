@@ -1,0 +1,8 @@
+
+namespace Units\{$unit}\Repositories;
+
+use Nuki\Skeletons\Providers\Repository;
+
+class {$repository} extends Repository {
+}
+

@@ -1,0 +1,21 @@
+
+namespace Units\{$unit}\Providers;
+
+use Nuki\Skeletons\{
+    Handlers\StorageHandler,
+    Providers\Storage
+};
+
+class {$provider} implements Storage {    
+    /**
+     * Contains the storage handler
+     * 
+     * @var object $storageHandler 
+     */
+    private $storageHandler;
+    
+    
+    public function __construct(StorageHandler $storageHandler) {
+        $this->storageHandler = $storageHandler;
+    }
+}

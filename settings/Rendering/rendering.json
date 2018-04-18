@@ -1,0 +1,21 @@
+{
+    "default": "foil",
+    "engines": {
+        "foil": {
+            "templating": true,
+            "folders": {
+                "System": "\/Users\/herant\/projects\/applications\/nukilogin\/Units\/System\/Templates"
+            },
+            "options": {
+                "autoescape": false,
+                "alias": "Nuki"
+            }
+        },
+        "raw": {
+            "templating": false
+        },
+        "json": {
+            "templating": false
+        }
+    }
+}

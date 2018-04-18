@@ -1,0 +1,11 @@
+{
+  "Extenders": {
+    "System": [
+      "Units\\System\\Extenders\\SetCsrfTokens",
+      "Units\\System\\Extenders\\RegisterTerminateWatchers",
+      "Units\\System\\Extenders\\CheckCsrf",
+      "Units\\System\\Extenders\\RegisterAuthExtender",
+      "Units\\System\\Extenders\\RedirectIfLoggedInExtender"
+    ]
+  }
+}

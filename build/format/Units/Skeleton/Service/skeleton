@@ -1,0 +1,12 @@
+
+namespace Units\{$unit}\Services;
+
+use Nuki\{
+    Skeletons\Services\Service,
+    Application\Application
+};
+
+class {$service} extends Service {
+    public function {$process}(Application $app) {
+    }
+}

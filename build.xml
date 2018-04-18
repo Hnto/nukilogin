@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Nuki" default="legend">
+    
+    <!-- Load configuration properties -->
+    <property file="./build/files/conf.properties" />
+    
+    <!-- Start targets -->
+        <target name="legend" description="Show all functions">
+            <echo msg="Phing init                   Initialize Nuki framework" />
+            <echo msg="Phing create-unit            Generates an empty unit location by template" />
+            <echo msg="Phing create-provider        Generates a provider by template" />
+            <echo msg="Phing create-repository      Generates a repository by template" />
+            <echo msg="Phing create-service         Generates a service by template" />
+            <echo msg="Phing create-extender        Generates a unit extender by template" />
+            <echo msg="Phing add-events             Add event(s) by template to a service" />
+            <echo msg="Phing create-database        Create a new database with default framework needed tables" />
+        </target>
+
+        <target name="return-types-validation">
+          <switch value="${app.return}">
+            <case value="1">
+              <fail msg="Error: the required files for initialisation could not be found" />
+            </case>
+            <case value="11">
+              <fail msg="Error: database connection went wrong" />
+            </case>
+            <case value="12">
+              <fail msg="Error: database creation went wrong, rollback database tasks" />
+            </case>
+            <case value="21">
+              <fail msg="Error: could not read target directory" />
+            </case>
+            <case value="23">
+              <fail msg="Error: could niet read target content file" />
+            </case>
+            <case value="24">
+              <fail msg="Error: target file contains mismatched content" />
+            </case>
+            <case value="25">
+              <fail msg="Error: target file is not writable" />
+            </case>
+            <case value="255">
+              <fail msg="Error: conf.properties file could not be found" />
+            </case>
+            <default>
+            </default>
+          </switch>
+        </target>
+
+        
+        <target name="init">
+          <echo message="Initializing Nuki" />
+
+        <input propertyname="renderer" defaultValue="foil" validargs="foil,raw,json">
+            What renderer would you like to use?
+        </input>
+        <propertyprompt propertyName="appPropName" defaultValue="MyNewProject" promptText="Fill in your application name or leave blank for default" />
+        <propertyprompt propertyName="appStorage" defaultValue="PDO" promptText="Fill in your storage driver or leave blank for default" />
+        <propertyprompt propertyName="appEnv" defaultValue="DEVELOPMENT" promptText="Fill in your application enviroment, anything other than DEVELOPMENT is seen as PRODUCTION" />
+
+          <echo message="Setup required files" />
+          <exec command="php ./build/scripts/php/setup-files.php '${renderer}' '${appPropName}' '${appStorage}' '${appEnv}'" passthru="true" escape="false" returnProperty="app.return" />
+          <phingcall target="return-types-validation">
+            <property name="app.return" value="${app.return}" />
+          </phingcall>
+
+          <echo message="Nuki is fully initialised and ready-to-create-beautiful-apps" />
+        </target>
+
+        <target name="create-database">
+          <propertyprompt propertyName="driver" defaultValue="mysql" promptText="Enter your driver name" />
+          <propertyprompt propertyName="host" defaultValue="localhost" promptText="Enter your host" />
+          <propertyprompt propertyName="port" defaultValue="3306" promptText="Enter your port" />
+          <propertyprompt propertyName="database" defaultValue="Nuki" promptText="Enter your database name" />          
+          
+          <propertyprompt propertyName="user" defaultValue="" promptText="Enter your username" />
+          <propertyprompt propertyName="pass" defaultValue="" promptText="Enter your password" />
+          
+          <exec command="php ./build/scripts/php/create-database.php ${driver} ${host} ${port} ${database} ${user} ${pass}" passthru="true" escape="true" returnProperty="app.return" />
+          <phingcall target="return-types-validation">
+            <property name="app.return" value="${app.return}" />
+          </phingcall>
+          
+          <echo message="Database successfully created" />
+        </target>
+
+        <target name="unit-root-existence">
+          <if>
+            <not>
+              <available file='${nuki.dir.units}' type='dir' />
+            </not>
+            <then>
+              <mkdir dir="${nuki.dir.units}" mode="750" />
+              <echo msg="Unit root directory created, as it did not exist (did you delete it by accident?)" />
+            </then>
+          </if>
+        </target>
+        
+        <target name="create-unit" depends="unit-root-existence">
+          <propertyprompt propertyName="unit" defaultValue="" promptText="Enter your unit name" />
+                 
+          <if>
+           <equals arg1="${unit}" arg2="" />
+           <then>
+             <fail message="You have not provided a unit name" />
+           </then>
+           <else>
+            <exec command="php ./build/scripts/php/create-template-folder.php '${unit}'" passthru="true" escape="false" returnProperty="app.return" />
+            <phingcall target="return-types-validation">
+              <property name="app.return" value="${app.return}" />
+            </phingcall>
+
+            <mkdir dir="${nuki.dir.units}${unit}" mode="711" />          
+            <mkdir dir="${nuki.dir.units}${unit}/Events" mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Models"  mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Providers" mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Extenders" mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Events" mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Repositories" mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Services" mode="711" />
+            <mkdir dir="${nuki.dir.units}${unit}/Templates" mode="711" />
+            <copy todir="${nuki.dir.units}${unit}/Templates">
+              <filelist dir="${nuki.dir.templates}" files="error.php"/>
+            </copy>          
+            <mkdir dir="${nuki.dir.units}${unit}/Watchers" mode="711" />
+            <echo message="Unit successfully created" />
+           </else>
+          </if>
+        </target>
+        
+        <target name="create-service">
+          <propertyprompt propertyName="unit" defaultValue="" promptText="Enter the unit name for this service" />
+          <propertyprompt propertyName="service" defaultValue="" promptText="Enter your service name" />
+          <propertyprompt propertyName="process" defaultValue="index" promptText="Enter the process name" />
+
+          <exec command="php ./build/scripts/php/create-service.php '${unit}' '${service}' '${process}'" passthru="true" escape="false" returnProperty="app.return" />
+          <phingcall target="return-types-validation">
+            <property name="app.return" value="${app.return}" />
+          </phingcall>
+        </target>
+
+        <target name="create-extender">
+            <propertyprompt propertyName="unit" defaultValue="" promptText="Enter the unit name" />
+            <propertyprompt propertyName="extender" defaultValue="" promptText="Enter the extender name" />
+
+            <exec command="php ./build/scripts/php/create-extender.php '${unit}' '${extender}'" passthru="true" escape="false" returnProperty="app.return" />
+            <phingcall target="return-types-validation">
+                <property name="app.return" value="${app.return}" />
+            </phingcall>
+        </target>
+
+        <target name="add-events">
+          <propertyprompt propertyName="unit" defaultValue="" promptText="Enter the unit name" />
+          <propertyprompt propertyName="service" defaultValue="" promptText="Enter the service name for these events" />
+          <propertyprompt propertyName="events" defaultValue="event1,event2" promptText="Enter the event names seperated by comma" />
+
+          <exec command="php ./build/scripts/php/add-events.php '${unit}' '${service}' '${events}'" passthru="true" escape="false" returnProperty="app.return" />
+          <phingcall target="return-types-validation">
+            <property name="app.return" value="${app.return}" />
+          </phingcall>
+        </target>
+        
+        <target name="create-provider">
+          <propertyprompt propertyName="unit" defaultValue="" promptText="Enter the unit name" />
+          <propertyprompt propertyName="provider" defaultValue="" promptText="Enter the provider name" />
+
+          <exec command="php ./build/scripts/php/create-provider.php '${unit}' '${provider}'" passthru="true" escape="false" returnProperty="app.return" />
+          <phingcall target="return-types-validation">
+            <property name="app.return" value="${app.return}" />
+          </phingcall>
+        </target>
+        
+        <target name="create-repository">
+          <propertyprompt propertyName="unit" defaultValue="" promptText="Enter the unit name" />
+          <propertyprompt propertyName="repository" defaultValue="" promptText="Enter the repository name" />
+            <propertyprompt propertyName="providers" defaultValue="provider1,provider1" promptText="Enter the provider names (including capitals)" />
+
+            <exec command="php ./build/scripts/php/create-repository.php '${unit}' '${repository}' '${providers}'" passthru="true" escape="false" returnProperty="app.return" />
+          <phingcall target="return-types-validation">
+            <property name="app.return" value="${app.return}" />
+          </phingcall>
+        </target>
+    <!-- End targets -->
+    
+</project>

@@ -1,0 +1,14 @@
+{
+    "Providers": {
+        "UserProvider": {
+            "Location": "Units\\System\\Providers\\UserProvider",
+            "Type": "Database",
+            "Usage": "Units"
+        },
+        "TokenProvider": {
+            "Location": "Units\\System\\Providers\\TokenProvider",
+            "Type": "Database",
+            "Usage": "Units"
+        }
+    }
+}
