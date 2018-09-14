@@ -3,7 +3,7 @@
 This is an example application using the NUKI framework.
 With this example you can: registrate, login and change user settings.
 
-#Setup
+# Setup
 - clone the repository and make sure the name of your folder is "nukilogin"
     - if you'd like a different name, you must modify the path in the "settings/Rendering/rendering/json" file
 - modify the database credentials inside "settings/Database/connection-pdo.json"
@@ -11,7 +11,7 @@ With this example you can: registrate, login and change user settings.
 - create a table "users" with fields "username", "password" and "email"
 - do "composer install"  with "--no-dev" to skip dev requirements   
 
-#Structure
+# Structure
 - **Units:**
     - **System**
         - **Services**:
