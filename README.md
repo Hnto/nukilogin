@@ -7,6 +7,8 @@ With this example you can: registrate, login and change user settings.
 - clone the repository and make sure the name of your folder is "nukilogin"
     - if you'd like a different name, you must modify the path in the "settings/Rendering/rendering/json" file
 - modify the database credentials inside "settings/Database/connection-pdo.json"
+- modify the location of your templates folder inside "settings/Rendering/rendering.json"
+- create a table "users" with fields "username", "password" and "email"
 - do "composer install"  with "--no-dev" to skip dev requirements   
 
 #Structure
