@@ -4,7 +4,7 @@
         "foil": {
             "templating": true,
             "folders": {
-                "System": "\/Users\/herant\/projects\/applications\/nukilogin\/Units\/System\/Templates"
+                "System": "\/nukilogin\/Units\/System\/Templates"
             },
             "options": {
                 "autoescape": false,
